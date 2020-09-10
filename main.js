@@ -2,6 +2,7 @@ const MAX_ENEMY = 7;
 
 const music = document.createElement('audio');
 music.src = 'music.mp3';
+music.loop='true';
 music.volume = 0.05;
 // music.remove()
 
@@ -63,6 +64,7 @@ let startGame = function() {
     car.style.bottom = '10px';
     car.style.left = gameArea.offsetWidth / 2 - car.offsetWidth / 2;
     // gameArea.append(music);
+    music.currentTime = 0
     music.play();
     setting.x = car.offsetLeft;
     setting.y = car.offsetTop;
