@@ -85,13 +85,6 @@ let difficultyUpdate = function() {
         setting.trafficPoint = 2;
         setting.traffic--;
     }
-
-    console.log("UPDATE DIFFICULTY");
-    console.log("speed " + setting.speed);
-    console.log("trafic " + setting.traffic);
-    console.log("traficPoint " + setting.trafficPoint);
-    console.log("difficulty " + setting.difficultyPoint);
-    console.log("==========");
 }
 
 let playGame = function() {
