@@ -9,7 +9,7 @@
 ### Installation
 ```bash
 npm init
-(in repo script name = main.js)
+(in repo script name = script.js)
 npm i -D electron@latest 
 npm i path url -D    
 ```
