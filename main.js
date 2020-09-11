@@ -1,10 +1,10 @@
 const MAX_ENEMY = 7;
-
+const HEIGHT_ELEM = 100; 
 const music = document.createElement('audio');
+
 music.src = 'music.mp3';
 music.loop='true';
 music.volume = 0.05;
-// music.remove()
 
 const score = document.querySelector('.score'),
     start = document.querySelector('.start'),
@@ -12,6 +12,9 @@ const score = document.querySelector('.score'),
     car = document.createElement('div');
 
 car.classList.add('car');
+
+const countSection = Math.floor(document.documentElement.clientHeight / HEIGHT_ELEM); 
+gameArea.style.height = countSection * HEIGHT_ELEM;
 
 const keys = {
     ArrowUp: false,
@@ -30,25 +33,26 @@ const setting = {
 };
 
 let getQuanityElementElements = function(heightElement, ) {
-    return document.documentElement.clientHeight / heightElement + 1; 
+    return (gameArea.offsetHeight / heightElement) + 1; 
 }
 
 let startGame = function() {
     start.classList.add('hide');
     gameArea.innerHTML = '';
-    for (let i = 0; i < getQuanityElementElements(100); i++) {
+    for (let i = 0; i < getQuanityElementElements(HEIGHT_ELEM); i++) {
         const line = document.createElement('div');
+        line.style.height = (HEIGHT_ELEM / 2) + 'px';
         line.classList.add('line');
-        line.style.top = (i * 100) + 'px';
-        line.y = i * 100;
+        line.style.top = (i * HEIGHT_ELEM) + 'px';
+        line.y = i * HEIGHT_ELEM;
         gameArea.append(line);
     }
-    for (let i = 0 ; i < getQuanityElementElements(100 * setting.traffic); i++) {
+    for (let i = 0 ; i < getQuanityElementElements(HEIGHT_ELEM * setting.traffic); i++) {
         const enemy = document.createElement('div');
         const randomEnemy = Math.floor(Math.random() * MAX_ENEMY) + 1
         enemy.classList.add('enemy');
-        enemy.y = -100 * setting.traffic * (i + 1);
-        enemy.style.left = Math.floor(Math.random() * (gameArea.offsetWidth - 50)) + 'px';  
+        enemy.y = -HEIGHT_ELEM * setting.traffic * (i + 1);
+        enemy.style.left = Math.floor(Math.random() * (gameArea.offsetWidth - HEIGHT_ELEM / 2)) + 'px';  
         enemy.style.top = enemy.y + 'px';
         enemy.style.background = `transparent url("./image/enemy${randomEnemy}.png") center / cover no-repeat`;
         gameArea.append(enemy);
@@ -118,8 +122,8 @@ let moveRoad = function() {
     lines.forEach(function(item, i, arr) {
         item.y += setting.speed; // item = line in lines list, i - index, arr - link to lines list
         item.style.top = item.y + 'px';
-        if (item.y >= document.documentElement.clientHeight) {
-            item.y = -100;
+        if (item.y >= gameArea.offsetHeight) {
+            item.y = -HEIGHT_ELEM;
         }
     })
 }
@@ -143,14 +147,15 @@ let moveEnemy = function() {
 
         item.y += setting.speed / 1.25;
         item.style.top = item.y + 'px';
-        if (item.y >= document.documentElement.clientHeight) {
-            item.y = -100 * setting.traffic;
-            item.style.left = Math.floor(Math.random() * (gameArea.offsetWidth - 50)) + 'px';  
-            const randomEnemy = Math.floor(Math.random() * MAX_ENEMY) + 1
+        if (item.y - item.offsetWidth >= gameArea.offsetHeight) {
+            item.y = -HEIGHT_ELEM * setting.traffic;
+            item.style.left = Math.floor(Math.random() * (gameArea.offsetWidth - item.offsetWidth)) + 'px';  
+            const randomEnemy = Math.floor(Math.random() * MAX_ENEMY) + 1;
             item.style.background = `transparent url("./image/enemy${randomEnemy}.png") center / cover no-repeat`;
             setting.score += setting.speed;
             difficultyUpdate();
         }
+
     })
 }
 
